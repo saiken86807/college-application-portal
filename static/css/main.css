@@ -1,0 +1,29 @@
+* {
+	box-sizing: border-box;
+}
+
+/* Color Scheme:
+#9f9aa4
+#e7cfcd
+#cfd8d7
+#b5c9c3
+#cab1bd */
+
+body {
+	background-color: #cfd8d7;
+}
+
+#total-applications {
+	background-color: #cab1bd;
+	color: #9f9aa4;
+}
+
+#decisions-pending {
+	background-color: #e7cfcd;
+	color: #9f9aa4;
+}
+
+#ready_review {
+	background-color: #b5c9c3;
+	color: #9f9aa4;
+}
