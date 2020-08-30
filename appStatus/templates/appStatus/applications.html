@@ -1,0 +1,40 @@
+{%  extends 'appStatus/main.html' %}
+
+{% block content %}
+
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Applications</h5>
+        </div>
+        <div class="card card-body">
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>High School</th>
+                    <th>Major</th>
+                    <th>GPA</th>
+                    <th>Review</th>
+                    <th>Remove</th>
+                </tr>
+
+                {% for applicant in applications %}
+                <tr>
+                    <td>{{applicant.name}}</td>
+                    <td>{{applicant.school}}</td>
+                    <td>{{applicant.major}}</td>
+                    <td>{{applicant.GPA}}</td>
+                    <td><a class="btn btn-sm btn-info" href="">Review</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="">Remove</a></td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
