@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Applicant, Status
+from .forms import ApplicantForm, DecisionForm
 
 # Create your views here.
 
@@ -27,8 +28,15 @@ def applications(request):
 
 
 def apply(request):
+    form = ApplicantForm()
+    if request.method == 'POST':
+        form = ApplicantForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
 
-    return render(request, 'appStatus/apply.html')
+    context = {'form': form}
+    return render(request, 'appStatus/apply.html', context)
 
 
 def applicant(request, pk_test):
@@ -37,4 +45,18 @@ def applicant(request, pk_test):
     applicants = Applicant.objects.all()
 
     context = {'applicant': applicant, 'applicants': applicants}
+    return render(request, 'appStatus/applicant.html', context)
+
+
+def applicationReview(request, pk):
+    applicant = Applicant.objects.get(id=pk)
+    form = DecisionForm(instance=applicant)
+
+    if request.method == 'POST':
+        form = DecisionForm(request.POST, instance=applicant)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {'form': form}
     return render(request, 'appStatus/applicant.html', context)
