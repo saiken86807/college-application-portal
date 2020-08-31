@@ -2,69 +2,34 @@
 
 {% block content %}
 
-<br>
-
-<div class="row">
-    <div class="col-md">
-        <div class="card card-body">
-            <h5>Applicant:</h5>
-            <hr>
-            <a class="btn btn-outline-info  btn-sm btn-block" href="">Update</a>
-            <a class="btn btn-outline-danger  btn-sm btn-block" href="">Remove</a>
-
-        </div>
+<div class="container">
+    <div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>High School</th>
+                <th>Major</th>
+                <th>GPA</th>
+            </tr>
+        
+            {% for applicant in applicants %}
+            <tr>
+                <td>{{applicant.name}}</td>
+                <td>{{applicant.school}}</td>
+                <td>{{applicant.major}}</td>
+                <td>{{applicant.GPA}}</td>
+            </tr>
+            {% endfor %}
+        
+        </table>
     </div>
-
-    <div class="col-md">
-        <div class="card card-body">
-            <h5>Contact Information</h5>
-            <hr>
-            <p>Email: {{applicant.email}} </p>
-            <p>Phone: {{applicant.phone}} </p>
-        </div>
-    </div>
-</div>
-
-
-<br>
-<div class="row">
-    <div class="col">
-        <div class="card card-body">
-            <form method="get">
-
-                <button class="btn btn-primary" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-
-</div>
-<br>
-
-<div class="row">
-    <div class="col-md">
-        <div class="card card-body">
-            <table class="table table-sm">
-                <tr>
-                    <th>Name</th>
-                    <th>High School</th>
-                    <th>Major</th>
-                    <th>GPA</th>
-                    <th>Review</th>
-                    <th>Remove</th>
-                </tr>
-                {% for applicant in applicants %}
-                <tr>
-                    <td>{{applicant.name}}</td>
-                    <td>{{applicant.school}}</td>
-                    <td>{{applicant.major}}</td>
-                    <td>{{applicant.GPA}}</td>
-                    <td><a class="btn btn-sm btn-info"  href="">Review</a></td>
-                    <td><a class="btn btn-sm btn-danger"  href="">Remove</a></td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
+    <h1>Application Review</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form}}
+    
+        <input type="submit" name="Submit">
+    </form>
 </div>
 
 {% endblock %}
