@@ -52,3 +52,6 @@ class Status(models.Model):
         Applicant, null=True, on_delete=models.SET_NULL)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
+
+
+# class DecisionStatus(models.Model):
