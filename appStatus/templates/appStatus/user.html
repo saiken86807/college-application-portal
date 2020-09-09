@@ -1,0 +1,15 @@
+{%  extends 'appStatus/main.html' %}
+{% block content %}
+<div container>
+    <div>
+        <h3>User Profile</h3>
+        <p>Hello, {{user.username}}</p>
+        <p>Verfiy your info is correct</p>
+    </div>
+    <div>
+        <button><a href="{% url 'apply' %}">Apply Now</a></button>
+    </div>
+</div>
+
+{% endblock content %}
+
