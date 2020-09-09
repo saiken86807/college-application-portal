@@ -1,32 +1,118 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Applicant, Status
-from .forms import ApplicantForm, DecisionForm
+
+from django.contrib.auth.forms import UserCreationForm
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
+from .models import Application
+from .forms import ApplicantForm, DecisionForm, CreateUserForm
+from .decorators import unauthenticated_user, allowed_users, admin_only
 
 # Create your views here.
 
 
+@unauthenticated_user
+def registerPage(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+
+            group = Group.objects.get(name='applicant')
+            user.groups.add(group)
+
+            Application.objects.create(
+                user=user,
+                name=user.username
+            )
+
+            messages.success(request, 'Account was created for' + username)
+
+            return redirect('login')
+
+    context = {'form': form}
+    return render(request, 'appStatus/register.html', context)
+
+
+@unauthenticated_user
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.info(request, 'Username OR password is incorrect')
+
+    context = {}
+    return render(request, 'appStatus/login.html', context)
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
+
+
+@login_required(login_url='login')
+@admin_only
 def home(request):
-    status = Status.objects.all()
-    applicants = Applicant.objects.all()
+    applicants = Application.objects.all()
 
     total_applicants = applicants.count()
 
-    decision_pending = status.filter(status='Pending').count()
-    ready_review = status.filter(status='Accepted').count()
+    decision_pending = applicants.filter(status='Pending').count()
+    decision_accepted = applicants.filter(status='Accepted').count()
+    decision_deny = applicants.filter(status='Denied').count()
 
-    context = {'status': status, 'applicants': applicants, 'total_applicants': total_applicants,
-               'decision_pending': decision_pending, 'ready_review': ready_review}
+    context = {'applicants': applicants, 'total_applicants': total_applicants,
+               'decision_pending': decision_pending, 'decision_accepted': decision_accepted, 'decision_deny': decision_deny}
 
     return render(request, 'appStatus/dashboard.html', context)
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
+# def userPage(request, username):
+#     applicants = Application.objects.all()
+#     user = User.objects.get(username=username)
+#     decision_pending = applicants.filter(status='Pending')
+#     decision_accepted = applicants.filter(status='Accepted')
+#     decision_deny = applicants.filter(status='Denied')
+#     context = {'user': user, 'applicants': applicants, 'decision_pending': decision_pending,
+#                'decision_accepted': decision_accepted, 'decision_deny': decision_deny}
+#     return render(request, 'appStatus/user.html', context)
+def userPage(request):
+    applicants = Application.objects.all()
+
+    decision_pending = applicants.filter(status='Pending').count()
+    decision_accepted = applicants.filter(status='Accepted').count()
+    decision_deny = applicants.filter(status='Denied').count()
+
+    context = {'applicants': applicants,
+               'decision_pending': decision_pending, 'decision_accepted': decision_accepted, 'decision_deny': decision_deny}
+    return render(request, 'appStatus/user.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def applications(request):
-    application = Applicant.objects.all()
+    application = Application.objects.all()
 
     return render(request, 'appStatus/applications.html', {'applications': application})
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['applicant'])
 def apply(request):
     form = ApplicantForm()
     if request.method == 'POST':
@@ -39,17 +125,11 @@ def apply(request):
     return render(request, 'appStatus/apply.html', context)
 
 
-def applicant(request, pk_test):
-    applicant = Applicant.objects.get(id=pk_test)
-
-    applicants = Applicant.objects.all()
-
-    context = {'applicant': applicant, 'applicants': applicants}
-    return render(request, 'appStatus/applicant.html', context)
-
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def applicationReview(request, pk):
-    applicant = Applicant.objects.get(id=pk)
+    applicant = Application.objects.get(id=pk)
+    applicants = Application.objects.all()
     form = DecisionForm(instance=applicant)
 
     if request.method == 'POST':
@@ -58,5 +138,5 @@ def applicationReview(request, pk):
             form.save()
             return redirect('/')
 
-    context = {'form': form}
+    context = {'form': form, 'applicants': applicants}
     return render(request, 'appStatus/applicant.html', context)
