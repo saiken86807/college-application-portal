@@ -7,9 +7,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
+            {% if request.user.is_staff %}
             <a class="nav-item nav-link active" href="{% url 'home' %}">Dashboard </a>
-            <a class="nav-item nav-link" href="{% url 'apply' %}">Apply Now</a>
             <a class="nav-item nav-link" href="{% url 'applications' %}">Applications</a>
+            {% endif %}
         </div>
     </div>
+    <div>
+        <span class="hello-user">Hello, {{request.user}}</span>
+    </div>
+    <span><a class="hello-msg" href="{% url 'logout' %}">Logout</a></span>
 </nav>
