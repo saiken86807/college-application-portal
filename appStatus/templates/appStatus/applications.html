@@ -16,6 +16,7 @@
                     <th>High School</th>
                     <th>Major</th>
                     <th>GPA</th>
+                    <th>Decision</th>
                     <th>Review</th>
                     <th>Remove</th>
                 </tr>
@@ -26,7 +27,8 @@
                     <td>{{applicant.school}}</td>
                     <td>{{applicant.major}}</td>
                     <td>{{applicant.GPA}}</td>
-                    <td><a class="btn btn-sm btn-info" href="">Review</a></td>
+                    <td>{{applicant.status}}</td>
+                    <td><a class="btn btn-sm btn-info" href="{% url 'application_review' applicant.id %}">Review</a></td>
                     <td><a class="btn btn-sm btn-danger" href="">Remove</a></td>
                 </tr>
                 {% endfor %}
