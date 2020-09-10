@@ -1,13 +1,21 @@
 {%  extends 'appStatus/main.html' %}
 {% block content %}
+{% load static %}
 <div container>
     <div>
-        <h3>User Profile</h3>
-        <p>Hello, {{user.username}}</p>
-        <p>Verfiy your info is correct</p>
+        <h2>User Profile</h2>
+        <h2>Hello, {{user.username}}</h2>
     </div>
-    <div>
+    <!-- <div>
         <button><a href="{% url 'apply' %}">Apply Now</a></button>
+    </div> -->
+    <div>
+        {% for applicant in applicants %}
+
+        {% if applicant.status == 'Pending' %}<h3>Your application is still being reviewed by your admissions counselor.</h3>{% elif applicant.major != NULL %}Your application is still being reviewed by your admissions counselor.{% elif applicant.status == 'Accepted' %}<h3>Congratulations on your acceptance to Aiken College!</h3> <img src="{% static '/images/congrats-with-confetti.jpg' %}" alt="">{% elif applicant.status == 'Denied' %}<h3>We regret to inform you that you have not been Accepted to Aiken College at this time.</h3>{% else %}<button><a href="{% url 'apply' %}">Apply Now</a></button>
+        {% endif %}
+
+        {% endfor %}
     </div>
 </div>
 
