@@ -5,14 +5,20 @@
         <div class="col-md-6">
             <div class="card card-body">
                 <h1>College Application: Apply Now</h1>
-                <form action="" method="POST" onsubmit="Submit.disabled = true; return true;">
+                <form action="" method="POST">
                     {% csrf_token %}
+                    <input type="text" name="user" value="{{user}}">
                     {{form}}
-
-                    <input type="submit" name="Submit">
+                    <input type="submit" name="Submit" onclick=save(); id="submit">
                 </form>
             </div>
         </div>
+    </div>
+    <div>
+        <p id="msg"></p>
+    </div>
+    <div>
+        <a href="{% url 'user-page' %}">Go Back</a>
     </div>
     
 
