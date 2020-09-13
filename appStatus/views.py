@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 # from django.contrib.auth.models import User
 from .models import Application
-from .forms import ApplicantForm, DecisionForm, CreateUserForm
+from .forms import ApplicantForm, DecisionForm, CreateUserForm, SearchCriteriaForm
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
 # Create your views here.
@@ -27,10 +27,10 @@ def registerPage(request):
             group = Group.objects.get(name='applicant')
             user.groups.add(group)
 
-            Application.objects.create(
-                user=user,
-                name=user.username
-            )
+            # Application.objects.create(
+            #     user=user,
+            #     name=user.username
+            # )
 
             messages.success(request, 'Account was created for ' + username)
 
@@ -89,14 +89,13 @@ def userPage(request):
         print('ID', request.user.id)
         applicants = Application.objects.filter(user=request.user)
 
-        decision_pending = applicants.filter(status='Pending').count()
-        decision_accepted = applicants.filter(status='Accepted').count()
-        decision_deny = applicants.filter(status='Denied').count()
-        decision_none = applicants.filter(status='None').count()
+        decision_pending = applicants.filter(status='Pending')
+        decision_accepted = applicants.filter(status='Accepted')
+        decision_deny = applicants.filter(status='Denied')
+        decision_none = applicants.filter(status='Received')
 
-        context = {'applicants': applicants,
-                   'decision_pending': decision_pending, 'decision_accepted': decision_accepted, 'decision_deny': decision_deny,
-                   'decision_none': decision_none}
+        context = {'applicants': applicants, 'decision_pending': decision_pending,
+                   'decision_accepted': decision_accepted, 'decision_deny': decision_deny, 'decision_none': decision_none}
         return render(request, 'appStatus/user.html', context)
     else:
         print('NO AUTH')
@@ -106,15 +105,24 @@ def userPage(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def applications(request):
+    searchform = SearchCriteriaForm(request.POST)
     application = Application.objects.all()
+    context = {'application': application}
 
-    return render(request, 'appStatus/applications.html', {'applications': application})
+    if request.method == 'POST':
+        application = Application.objects.filter(
+            major=searchform['major'].value(), status=searchform['status'].value())
+
+    context = {'application': application,
+               'searchform': searchform}
+    return render(request, 'appStatus/applications.html', context)
 
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['applicant'])
 def apply(request):
     applicants = Application.objects.filter(user=request.user)
+    app_received = applicants.filter(status='Received')
     form = ApplicantForm()
     if request.method == 'POST':
         form = ApplicantForm(request.POST,)
@@ -123,7 +131,8 @@ def apply(request):
             form.save()
             return redirect('/')
 
-    context = {'applicants': applicants, 'form': form}
+    context = {'applicants': applicants,
+               'app_received': app_received, 'form': form}
     return render(request, 'appStatus/apply.html', context)
 
 
@@ -132,13 +141,20 @@ def apply(request):
 def applicationReview(request, pk):
     applicant = Application.objects.get(id=pk)
     applicants = Application.objects.all()
+    total_applicants = applicants.count()
+
+    decision_pending = applicants.filter(status='Pending').count()
+    decision_accepted = applicants.filter(status='Accepted').count()
+    decision_deny = applicants.filter(status='Denied').count()
+
     form = DecisionForm(instance=applicant)
 
     if request.method == 'POST':
         form = DecisionForm(request.POST, instance=applicant)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('/applications')
 
-    context = {'form': form, 'applicants': applicants}
+    context = {'form': form, 'applicants': applicants, 'total_applicants': total_applicants,
+               'decision_pending': decision_pending, 'decision_accepted': decision_accepted, 'decision_deny': decision_deny}
     return render(request, 'appStatus/applicant.html', context)
