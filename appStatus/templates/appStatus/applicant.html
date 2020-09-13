@@ -1,35 +1,19 @@
 {%  extends 'appStatus/main.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 
-<div class="container">
-    <div>
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>High School</th>
-                <th>Major</th>
-                <th>GPA</th>
-            </tr>
+
+{% include 'appStatus/status.html' %}
+    <div class="container col-md-6 offset-md-3">
+        <h1>Application Review</h1>
+        <form id="app_review" action="" method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
         
-            {% for applicant in applicants %}
-            <tr>
-                <td>{{applicant.name}}</td>
-                <td>{{applicant.school}}</td>
-                <td>{{applicant.major}}</td>
-                <td>{{applicant.GPA}}</td>
-            </tr>
-            {% endfor %}
-        
-        </table>
+            <input class="btn btn-success" type="submit" name="Submit">
+        </form>
     </div>
-    <h1>Application Review</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form}}
     
-        <input type="submit" name="Submit">
-    </form>
-</div>
+
 
 {% endblock %}
