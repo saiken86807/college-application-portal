@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -26,6 +27,7 @@ SCHOOL = (
     ('Weston High School', 'Weston High School')
 )
 STATUS = (
+    ('Received', 'Received'),
     ('Pending', 'Pending'),
     ('Accepted', 'Accepted'),
     ('Denied', 'Denied')
@@ -34,13 +36,17 @@ STATUS = (
 
 class Application(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200, null=True)
-    phone = models.CharField(max_length=200, null=True)
-    email = models.CharField(max_length=200, null=True)
-    major = models.CharField(max_length=200, null=True, choices=MAJOR)
-    school = models.CharField(max_length=200, null=True, choices=SCHOOL)
-    GPA = models.FloatField(null=True)
-    status = models.CharField(max_length=200, null=True, choices=STATUS)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    phone = models.CharField(max_length=200, blank=True, null=True)
+    email = models.CharField(max_length=200, blank=True, null=True)
+    major = models.CharField(max_length=200, blank=True,
+                             null=True, choices=MAJOR)
+    school = models.CharField(
+        max_length=200, blank=True, null=True, choices=SCHOOL)
+    GPA = models.FloatField(null=True, blank=True, validators=[
+                            MinValueValidator(2), MaxValueValidator(4)])
+    status = models.CharField(
+        max_length=200, blank=True, null=True, choices=STATUS)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
