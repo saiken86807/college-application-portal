@@ -27,6 +27,9 @@ body {
 	background-color: #b5c9c3;
 	color: #9f9aa4;
 }
+#decision_deny {
+	background-color: #9f9aa4;
+}
 
 #messages {
 	background-color: grey;
@@ -95,4 +98,18 @@ login-title {
 .login-register {
 	font-size: 11px;
 	text-align: center;
+}
+
+.status-totals {
+	margin-top: 20px;
+	padding-top: 10px;
+}
+
+#searchform, #app_review, #apply-form {
+	margin: 10px;
+	padding: 20px;
+	border-radius: 5px;
+	border: 3px solid black;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+	background-color: #e7cfcd;
 }
