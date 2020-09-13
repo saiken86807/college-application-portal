@@ -8,8 +8,7 @@ from .models import Application
 class ApplicantForm(ModelForm):
     class Meta:
         model = Application
-        fields = ['name', 'phone',
-                  'email', 'school', 'major', 'GPA']
+        fields = ['name', 'phone', 'email', 'school', 'major', 'GPA']
         exclude = ['user']
 
 
@@ -17,6 +16,12 @@ class DecisionForm(ModelForm):
     class Meta:
         model = Application
         fields = ['name', 'school', 'major', 'GPA', 'status']
+
+
+class SearchCriteriaForm(ModelForm):
+    class Meta:
+        model = Application
+        fields = ['major', 'status']
 
 
 class CreateUserForm(UserCreationForm):
