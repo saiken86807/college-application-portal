@@ -1,18 +1,33 @@
 {%  extends 'appStatus/main.html' %}
 {% block content %}
 {% load static %}
-<div container>
+<div class='container'>
+    
+    {% if user.username != NULL %}
     <div>
-        <h2>User Profile</h2>
-        <h2>Hello, {{user.username}}</h2>
+        <button class="btn btn-success"><a href="{% url 'apply' %}">Apply Now</a></button>
     </div>
-    <!-- <div>
-        <button><a href="{% url 'apply' %}">Apply Now</a></button>
-    </div> -->
+    {% endif %}
+    {% for applicant in applicants %}
     <div>
-        {% for applicant in applicants %}
-
-        {% if applicant.status == 'Pending' %}<h3>Your application is still being reviewed by your admissions counselor.</h3>{% elif applicant.major != NULL %}Your application is still being reviewed by your admissions counselor.{% elif applicant.status == 'Accepted' %}<h3>Congratulations on your acceptance to Aiken College!</h3> <img src="{% static '/images/congrats-with-confetti.jpg' %}" alt="">{% elif applicant.status == 'Denied' %}<h3>We regret to inform you that you have not been Accepted to Aiken College at this time.</h3>{% else %}<button><a href="{% url 'apply' %}">Apply Now</a></button>
+        <h2>Welcome to your application portal {{applicant.name}}</h2>
+    </div>
+    <div>
+        {% if applicant.status == 'Pending' %}
+        <h3>Your application is still being reviewed by your admissions counselor.</h3>
+        {% elif applicant.status == 'Received' %}
+        <h3>Thank you for submitting your application. Your Admissions Counselor will begin reviewing your application very soon. Please check back for updates.</h3>
+        {% elif applicant.status == 'Accepted' %}
+        <div class="container">
+        <h3>Congratulations on your acceptance to Aiken College!</h3> <img src="{% static '/images/congrats-with-confetti.jpg' %}" alt="congratulations image"></div>
+        {% elif applicant.status == 'Denied' %}
+        <h3>We regret to inform you that you have not been Accepted to Aiken College at this time.</h3>
+        {% elif applicant.status == NULL %}
+        <h3>Thank you for submitting your application. Your Admissions Counselor will begin reviewing your application very soon. Please check back for updates.</h3>
+        {% elif applicant.major != NULL %}
+        <h3>Your Admissions Counselor will begin reviewing your application very soon. Please check back for updates.</h3>
+        {% else %}
+        <button class="btn btn-success"><a href="{% url 'apply' %}">Apply Now</a></button>
         {% endif %}
 
         {% endfor %}
