@@ -4,13 +4,9 @@
 
 {% include 'appStatus/status.html' %}
 
-
-
 <div class="container">
-    <p>College Application Portal</p>
-
     <div>
-        <h5>Applications</h5>
+        <h2>Applications</h2>
         <hr>
         <div class="card card-body">
             <table class="table table-sm">
@@ -28,7 +24,7 @@
                     <td>{{applicant.name}}</td>
                     <td>{{applicant.school}}</td>
                     <td>{{applicant.major}}</td>
-                    <td>{{applicant.GPA}}</td>
+                    <td>{{applicant.GPA|floatformat:2}}</td>
                     <td>{{applicant.status}}</td>
                     <td><a class="btn btn-sm btn-info" href="{% url 'application_review' applicant.id %}">Review</a></td>
                 </tr>
