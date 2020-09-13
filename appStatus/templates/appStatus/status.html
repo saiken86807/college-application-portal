@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container status-totals">
 <div class="row">
     <div class="col">
         <div class="col-md">
             <div class="card text-center text-white  mb-3" id="total-applications">
                 <div class="card-header">
-                    <h5 class="card-title">Total Applications</h5>
+                    <h5 class="card-title">Total Apps</h5>
                 </div>
                 <div class="card-body">
                     <h3 class="card-title">{{total_applicants}}</h3>
@@ -17,7 +17,7 @@
         <div class="col-md">
             <div class="card text-center text-white  mb-3" id="decisions-pending">
                 <div class="card-header">
-                    <h5 class="card-title">Decisions Pending</h5>
+                    <h5 class="card-title">Pending</h5>
                 </div>
                 <div class="card-body">
                     <h3 class="card-title">{{decision_pending}}</h3>
@@ -30,7 +30,7 @@
         <div class="col-md">
             <div class="card text-center text-white  mb-3" id="ready_review">
                 <div class="card-header">
-                    <h5 class="card-title">Total Accepted</h5>
+                    <h5 class="card-title">Accepted</h5>
                 </div>
                 <div class="card-body">
                     <h3 class="card-title">{{decision_accepted}}</h3>
@@ -40,9 +40,9 @@
     </div>
     <div class="col">
         <div class="col-md">
-            <div class="card text-center text-white  mb-3" id="ready_review">
+            <div class="card text-center text-white  mb-3" id="decision_deny">
                 <div class="card-header">
-                    <h5 class="card-title">Total Denied</h5>
+                    <h5 class="card-title">Denied</h5>
                 </div>
                 <div class="card-body">
                     <h3 class="card-title">{{decision_deny}}</h3>
