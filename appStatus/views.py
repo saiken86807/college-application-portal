@@ -27,11 +27,6 @@ def registerPage(request):
             group = Group.objects.get(name='applicant')
             user.groups.add(group)
 
-            # Application.objects.create(
-            #     user=user,
-            #     name=user.username
-            # )
-
             messages.success(request, 'Account was created for ' + username)
 
             return redirect('login')
@@ -88,13 +83,14 @@ def userPage(request):
         print('AUTH', request.user)
         print('ID', request.user.id)
         applicants = Application.objects.filter(user=request.user)
+        app_received = applicants.filter(status='Received')
 
         decision_pending = applicants.filter(status='Pending')
         decision_accepted = applicants.filter(status='Accepted')
         decision_deny = applicants.filter(status='Denied')
         decision_none = applicants.filter(status='Received')
 
-        context = {'applicants': applicants, 'decision_pending': decision_pending,
+        context = {'applicants': applicants, 'app_received': app_received, 'decision_pending': decision_pending,
                    'decision_accepted': decision_accepted, 'decision_deny': decision_deny, 'decision_none': decision_none}
         return render(request, 'appStatus/user.html', context)
     else:
