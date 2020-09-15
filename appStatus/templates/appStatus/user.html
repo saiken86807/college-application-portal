@@ -1,10 +1,11 @@
 {%  extends 'appStatus/main.html' %}
 {% block content %}
 {% load static %}
-<div class='container'>
-    
-    {% if user.username != NULL %}
+<div class='container apply-container'>
+    {% if app_received != 'Received' %}   
     <div>
+        <h2>Welcome to your application portal {{user}}</h2>
+        <p>Click apply now below to submit your application!</p>
         <button class="btn btn-success"><a href="{% url 'apply' %}">Apply Now</a></button>
     </div>
     {% endif %}
@@ -12,16 +13,17 @@
     <div>
         <h2>Welcome to your application portal {{applicant.name}}</h2>
     </div>
-    <div>
+    <div class="decision-message">
         {% if applicant.status == 'Pending' %}
-        <h3>Your application is still being reviewed by your admissions counselor.</h3>
+        <h3>Your application is still being reviewed by your admissions counselor. Please check back for updates.</h3>
         {% elif applicant.status == 'Received' %}
         <h3>Thank you for submitting your application. Your Admissions Counselor will begin reviewing your application very soon. Please check back for updates.</h3>
         {% elif applicant.status == 'Accepted' %}
         <div class="container">
-        <h3>Congratulations on your acceptance to Aiken College!</h3> <img src="{% static '/images/congrats-with-confetti.jpg' %}" alt="congratulations image"></div>
+        <h3>Congratulations on your acceptance to Aiken College!</h3><h4>We are delighted to offer you admission for the Fall. </h4> <img src="{% static '/images/congrats-with-confetti.jpg' %}" alt="congratulations image"></div>
         {% elif applicant.status == 'Denied' %}
-        <h3>We regret to inform you that you have not been Accepted to Aiken College at this time.</h3>
+        <h3>Your application for admission to Aiken College has been carefully evaluated by the admission committee. We regret to inform you that we are unable to offer you admission at this time. This was a very difficult decision as we receive a large number of applications and are unable to admit every candidate.
+        </h3>
         {% elif applicant.status == NULL %}
         <h3>Thank you for submitting your application. Your Admissions Counselor will begin reviewing your application very soon. Please check back for updates.</h3>
         {% elif applicant.major != NULL %}
