@@ -1,6 +1,6 @@
 {%  extends 'appStatus/main.html' %}
 {% load crispy_forms_tags %}
-
+{% load static %}
 {% block content %}
     <div class="row">
         <div class="col-md-8 offset-md-2">
@@ -9,7 +9,13 @@
                 <form id="apply-form" action="" method="POST">
                     {% csrf_token %}
                     {{form|crispy}}
-                    <input class="btn btn-success" type="submit" name="Submit" onclick=save(); id="submit">
+                    {% for app in app_received %}
+                    {% if app.status == 'Received' %}
+                    <input class="btn btn-success" type="submit" name="Submit" disabled> <p>You've already submitted an application</p>
+                    {% else %}
+                    <input class="btn btn-success" type="submit" name="Submit" onclick='save()'; id="submit">
+                    {% endif %}
+                    {% endfor %}
                 </form>
             </div>
         </div>
