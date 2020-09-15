@@ -46,7 +46,7 @@ class Application(models.Model):
     GPA = models.FloatField(null=True, blank=True, validators=[
                             MinValueValidator(2), MaxValueValidator(4)])
     status = models.CharField(
-        max_length=200, blank=True, null=True, choices=STATUS)
+        max_length=200, blank=True, null=True, choices=STATUS, default='Received')
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
