@@ -1,1 +1,1 @@
-web: gunicorn collegeapplicationportal.wsgi
+web: gunicorn statusportal.wsgi
