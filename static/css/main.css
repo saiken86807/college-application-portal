@@ -102,7 +102,7 @@ login-title {
 	text-align: center;
 }
 
-.status-totals {
+.status-totals, .apply-container {
 	margin-top: 20px;
 	padding-top: 10px;
 }
@@ -121,9 +121,8 @@ img {
 	border: 3px solid black;
 }
 
-.apply-container {
-	margin-top: 20px;
-	padding-top: 10px;
+.apply-header {
+	margin: 20px;
 }
 
 .decision-message {
