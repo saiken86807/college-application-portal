@@ -1,1 +1,1 @@
-web: gunicorn statusportal.wsgi
+web: gunicorn statusportal.wsgi --log-file -
