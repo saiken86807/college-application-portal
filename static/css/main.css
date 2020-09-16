@@ -11,6 +11,13 @@
 
 body {
 	background-color: #cfd8d7;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.app-nav-brand {
+	font-family: 'Bilbo Swash Caps', cursive;
+	font-size: 30px;
+	letter-spacing: .1em;
 }
 
 #total-applications {
@@ -40,8 +47,6 @@ body {
 
 .hello-user {
 	color: white;
-	margin-right: 20px;
-	padding-right: 20px;
 }
 
 #login {
@@ -63,7 +68,6 @@ body {
 
 login-title {
 	font-size: 50px;
-	font-family: 'Sans-serif', cursive;
 	font-weight: 400;
 }
 
@@ -74,14 +78,9 @@ login-title {
 .register-icons {
 	margin: 5px;
 }
-.main-login {
-	background-color: #fff;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	-moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-	-webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+
+.input-group-addon {
+	padding-right: 15px;
 }
 
 .main-center {
@@ -89,6 +88,9 @@ login-title {
 	margin: 0 auto;
 	max-width: 400px;
 	padding: 40px 40px;
+	border: 1px solid #9c9c9c;
+	border-radius: 2px;
+	background-color: #eaeaea;
 }
 
 .login-button {
@@ -96,7 +98,7 @@ login-title {
 }
 
 .login-register {
-	font-size: 11px;
+	font-size: 16px;
 	text-align: center;
 }
 
@@ -127,4 +129,15 @@ img {
 .decision-message {
 	margin-top: 20px;
 	padding: 10px;
+}
+
+#id_username, #id_password1, #id_password2, #reg-email > #id_email {
+	width: 80%;
+}
+
+@media only screen and (min-width: 992px) {
+	.hello-user {
+	margin-right: 20px;
+	padding-right: 20px;
+}
 }
