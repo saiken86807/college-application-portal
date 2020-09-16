@@ -11,7 +11,7 @@
                 <h5>Applications</h5>
                 <h6>Filter by Major and Decision Status for select applications to review</h6>
             </div>
-            <form id="searchform" method='POST' action="">
+            <form id="searchform" method='POST'>
                 {% csrf_token %}
                 {{searchform|crispy}}
                 <input class="btn btn-info" type="submit" value="Submit">
