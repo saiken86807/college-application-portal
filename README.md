@@ -1,12 +1,11 @@
 
 # College Application Portal
-[View site here](add link here)
+[View site here](https://college-application-portal.herokuapp.com/)
 
 ## This site was created using:
 1. Python Django
 2. HTML
 3. CSS
-4. JavaScript
 
 ### User Stories
 1. As a student, I want to see if I was accepted or denied to the college I applied to.
