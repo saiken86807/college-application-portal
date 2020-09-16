@@ -1,13 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-
-from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-# from django.contrib.auth.models import User
 from .models import Application
 from .forms import ApplicantForm, DecisionForm, CreateUserForm, SearchCriteriaForm
 from .decorators import unauthenticated_user, allowed_users, admin_only
@@ -80,8 +76,6 @@ def home(request):
 @allowed_users(allowed_roles=['applicant'])
 def userPage(request):
     if request.user.is_authenticated:
-        print('AUTH', request.user)
-        print('ID', request.user.id)
         applicants = Application.objects.filter(user=request.user)
         app_submitted = applicants.filter(app_submitted='Submitted')
 
@@ -118,10 +112,10 @@ def applications(request):
 @allowed_users(allowed_roles=['applicant'])
 def apply(request):
     applicants = Application.objects.filter(user=request.user)
-    app_received = applicants.filter(status='Received')
+    app_submitted = applicants.filter(app_submitted='Submitted')
     form = ApplicantForm()
     if request.method == 'POST':
-        form = ApplicantForm(request.POST,)
+        form = ApplicantForm(request.POST)
         form.instance.user = request.user
         if form.is_valid():
             form.instance.app_submitted = 'Submitted'
@@ -129,7 +123,7 @@ def apply(request):
             return redirect('/')
 
     context = {'applicants': applicants,
-               'app_received': app_received, 'form': form}
+               'app_submitted': app_submitted, 'form': form}
     return render(request, 'appStatus/apply.html', context)
 
 
