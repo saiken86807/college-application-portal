@@ -83,14 +83,14 @@ def userPage(request):
         print('AUTH', request.user)
         print('ID', request.user.id)
         applicants = Application.objects.filter(user=request.user)
-        app_received = applicants.filter(status='Received')
+        app_submitted = applicants.filter(app_submitted='Submitted')
 
         decision_pending = applicants.filter(status='Pending')
         decision_accepted = applicants.filter(status='Accepted')
         decision_deny = applicants.filter(status='Denied')
         decision_none = applicants.filter(status='Received')
 
-        context = {'applicants': applicants, 'app_received': app_received, 'decision_pending': decision_pending,
+        context = {'applicants': applicants, 'app_submitted': app_submitted, 'decision_pending': decision_pending,
                    'decision_accepted': decision_accepted, 'decision_deny': decision_deny, 'decision_none': decision_none}
         return render(request, 'appStatus/user.html', context)
     else:
@@ -124,6 +124,7 @@ def apply(request):
         form = ApplicantForm(request.POST,)
         form.instance.user = request.user
         if form.is_valid():
+            form.instance.app_submitted = 'Submitted'
             form.save()
             return redirect('/')
 
