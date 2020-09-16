@@ -2,15 +2,16 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+<div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="apply-now">
-                <h1>College Application: Apply Now</h1>
+                <h1 class="text-center apply-header">College Application: Apply Now</h1>
                 <form id="apply-form" method="POST">
                     {% csrf_token %}
                     {{form|crispy}}
                     {% if app_submitted %}
-                    <input class="btn btn-success" type="submit" name="Submit" disabled> <p>You've already submitted an application</p>
+                    <input class="btn btn-dark" type="submit" name="Submit" disabled> <p>You've already submitted an application</p>
                     {% else %}
                     <input class="btn btn-success" type="submit" name="Submit" id="submit">
                     {% endif %}
@@ -19,8 +20,10 @@
         </div>
     </div>
     <div>
-        <a href="{% url 'user-page' %}">Go Back</a>
+        <a class="btn btn-info btn-lg" href="{% url 'user-page' %}">Go Back</a>
     </div>
+    </div>
+    
     
 
 {% endblock content %}
