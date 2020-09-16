@@ -6,22 +6,17 @@
         <div class="col-md-8 offset-md-2">
             <div class="apply-now">
                 <h1>College Application: Apply Now</h1>
-                <form id="apply-form" action="" method="POST">
+                <form id="apply-form" method="POST">
                     {% csrf_token %}
                     {{form|crispy}}
-                    {% for app in app_received %}
-                    {% if app.status == 'Received' %}
+                    {% if app_submitted %}
                     <input class="btn btn-success" type="submit" name="Submit" disabled> <p>You've already submitted an application</p>
                     {% else %}
-                    <input class="btn btn-success" type="submit" name="Submit" onclick='save()'; id="submit">
+                    <input class="btn btn-success" type="submit" name="Submit" id="submit">
                     {% endif %}
-                    {% endfor %}
                 </form>
             </div>
         </div>
-    </div>
-    <div>
-        <p id="msg"></p>
     </div>
     <div>
         <a href="{% url 'user-page' %}">Go Back</a>
