@@ -2,18 +2,19 @@
 {% block content %}
 {% load static %}
 <div class='container apply-container'>
-    {% if app_received != 'Received' %}   
-    <div>
+
+    {% if app_submitted %}
+    <div class="container">
         <h2>Welcome to your application portal {{user}}</h2>
-        <p>Click apply now below to submit your application!</p>
-        <button class="btn btn-success"><a href="{% url 'apply' %}">Apply Now</a></button>
+    </div>
+    {% else %}
+    <div>
+        <p>Click the Apply Now button below to submit your application!</p>
+        <a class="btn btn-info btn-lg" href="{% url 'apply' %}">Apply Now</a>
     </div>
     {% endif %}
     {% for applicant in applicants %}
-    <div>
-        <h2>Welcome to your application portal {{applicant.name}}</h2>
-    </div>
-    <div class="decision-message">
+    <div class="container decision-message">
         {% if applicant.status == 'Pending' %}
         <h3>Your application is still being reviewed by your admissions counselor. Please check back for updates.</h3>
         {% elif applicant.status == 'Received' %}
