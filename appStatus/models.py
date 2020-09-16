@@ -32,6 +32,10 @@ STATUS = (
     ('Accepted', 'Accepted'),
     ('Denied', 'Denied')
 )
+SUBMISSION = (
+    ('Not Submitted', 'Not Submitted'),
+    ('Submitted', 'Submitted')
+)
 
 
 class Application(models.Model):
@@ -47,6 +51,8 @@ class Application(models.Model):
                             MinValueValidator(2), MaxValueValidator(4)])
     status = models.CharField(
         max_length=200, blank=True, null=True, choices=STATUS, default='Received')
+    app_submitted = models.CharField(
+        max_length=25, blank=True, null=True, choices=SUBMISSION, default='Not Submitted')
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
