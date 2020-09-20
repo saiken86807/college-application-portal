@@ -10,7 +10,6 @@ urlpatterns = [
     path('user', views.userPage, name='user-page'),
     path('apply', views.apply, name="apply"),
     path('applications', views.applications, name="applications"),
-    # path('applicant/<str:pk_test>/', views.applicant, name="applicants"),
     path('application_review/<str:pk>/',
          views.applicationReview, name='application_review')
 ]
